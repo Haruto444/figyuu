@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Figyuu | Your Figures, Your Story</title>
+  <meta
+    name="description"
+    content="A personal anime figure collection tracker."
+  >
+
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌸%3C/text%3E%3C/svg%3E"
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="/style.css">
+  <script src="/script.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Figyuu home">
+        <span class="brand-icon">猫</span>
+        <span>
+          <span class="brand-name">Fig<span>yuu</span></span>
+          <span class="brand-tagline">Your Figures. Your Story.</span>
+        </span>
+      </a>
+
+      <nav class="navigation" aria-label="Main navigation">
+        <a class="nav-link active" href="#collection">
+          <span>⌂</span> Collection
+        </a>
+        <a class="nav-link" href="#wishlist" id="wishlistNav">
+          <span>♡</span> Wishlist
+        </a>
+        <button class="nav-link" id="openAddFigure" type="button">
+          <span>＋</span> Add Figure
+        </button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="note-flower">✿</span>
+        <p>Good figures,<br>better days.</p>
+        <span class="note-japanese">私のコレクション</span>
+      </div>
+
+      <div class="sidebar-footer">
+        Made for collectors <span>♥</span>
+      </div>
+    </aside>
+
+    <main class="main-content" id="collection">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL FIGURE ARCHIVE</p>
+          <h1>My <span>Figure Collection</span></h1>
+        </div>
+
+        <div class="topbar-decoration" aria-hidden="true">✿</div>
+      </header>
+
+      <section class="hero" aria-label="Welcome">
+        <div class="hero-content">
+          <p class="eyebrow">WELCOME BACK, COLLECTOR</p>
+          <h2>Your collection,<br>your little universe.</h2>
+          <p class="hero-description">
+            Keep track of your favorites, celebrate every new addition,
+            and never lose sight of your next grail.
+          </p>
+          <button class="button button-primary" id="heroAddFigure" type="button">
+            ＋ Add a figure
+          </button>
+        </div>
+        <div class="hero-decoration" aria-hidden="true">
+          <span>桜</span>
+          <span>✿</span>
+          <span>✧</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Collection statistics">
+        <article class="stat-card">
+          <span class="stat-icon owned-icon">♕</span>
+          <div>
+            <p>Owned</p>
+            <strong id="ownedCount">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon ordered-icon">🛒</span>
+          <div>
+            <p>Ordered</p>
+            <strong id="orderedCount">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon wished-icon">♡</span>
+          <div>
+            <p>Wishlist</p>
+            <strong id="wishedCount">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon total-icon">✧</span>
+          <div>
+            <p>Total entries</p>
+            <strong id="totalCount">0</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="collection-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE DISPLAY SHELF</p>
+            <h2 id="collectionHeading">Your collection</h2>
+          </div>
+          <span class="result-count" id="resultCount">0 figures</span>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search figures, characters, series..."
+              autocomplete="off"
+              aria-label="Search figures"
+            >
+          </label>
+
+          <label class="select-wrap">
+            <span class="visually-hidden">Filter by status</span>
+            <select id="statusFilter">
+              <option value="All">All statuses</option>
+              <option value="Owned">Owned</option>
+              <option value="Ordered">Ordered</option>
+              <option value="Wished">Wished</option>
+            </select>
+          </label>
+
+          <label class="select-wrap">
+            <span class="visually-hidden">Sort figures</span>
+            <select id="sortSelect">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="loadingState" class="message-state">
+          <span class="loading-spinner"></span>
+          <p>Arranging your figure shelf...</p>
+        </div>
+
+        <div id="errorState" class="message-state hidden" role="alert">
+          <p>We couldn't load your collection.</p>
+          <button class="button button-secondary" id="retryButton" type="button">
+            Try again
+          </button>
+        </div>
+
+        <div id="emptyState" class="message-state hidden">
+          <span class="empty-icon">♡</span>
+          <h3>Your shelf is waiting!</h3>
+          <p>No figures found here just yet. Your next favorite could be the first.</p>
+          <button class="button button-primary" id="emptyAddFigure" type="button">
+            Add your first figure
+          </button>
+        </div>
+
+        <div id="figureGrid" class="figure-grid"></div>
+      </section>
+
+      <footer class="page-footer">
+        <span>Figyuu <span class="footer-heart">♥</span></span>
+        <span>A little home for your favorite figures.</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="figureDialog" class="figure-dialog">
+    <form id="figureForm">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">GROW YOUR COLLECTION</p>
+          <h2>Add a figure</h2>
+        </div>
+        <button
+          class="icon-button"
+          type="button"
+          id="closeFigureDialog"
+          aria-label="Close dialog"
+        >×</button>
+      </div>
+
+      <p class="dialog-note">
+        Add the figure details below. Fields marked with * are required.
+      </p>
+
+      <label class="form-field">
+        Figure name *
+        <input name="name" required maxlength="255" placeholder="e.g. Nendoroid Hatsune Miku">
+      </label>
+
+      <label class="form-field">
+        Series
+        <input name="series" maxlength="255" placeholder="e.g. Vocaloid">
+      </label>
+
+      <label class="form-field">
+        Character
+        <input name="character_name" maxlength="255" placeholder="e.g. Hatsune Miku">
+      </label>
+
+      <label class="form-field">
+        Manufacturer
+        <input name="manufacturer" maxlength="255" placeholder="e.g. Good Smile Company">
+      </label>
+
+      <div class="form-row">
+        <label class="form-field">
+          Scale
+          <input name="scale" maxlength="50" placeholder="e.g. 1/7 Scale">
+        </label>
+
+        <label class="form-field">
+          Release date
+          <input name="release_date" type="date">
+        </label>
+      </div>
+
+      <label class="form-field">
+        Image URL
+        <input name="image_url" type="url" placeholder="https://example.com/figure.jpg">
+      </label>
+
+      <label class="form-field">
+        Collection status
+        <select name="status">
+          <option value="Owned">Owned</option>
+          <option value="Ordered">Ordered</option>
+          <option value="Wished" selected>Wished</option>
+        </select>
+      </label>
+
+      <p id="formError" class="form-error hidden" role="alert"></p>
+
+      <div class="dialog-actions">
+        <button class="button button-secondary" type="button" id="cancelFigure">
+          Cancel
+        </button>
+        <button class="button button-primary" type="submit" id="saveFigureButton">
+          Save figure
+        </button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
